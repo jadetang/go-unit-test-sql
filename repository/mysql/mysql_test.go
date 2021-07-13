@@ -41,10 +41,11 @@ func TestFindByID(t *testing.T) {
 		repo.Close()
 	}()
 
-	query := "SELECT id, name, email, phone FROM users WHERE id = \\?"
+	query := "SELECT id, case when name == 'Momo' then 'xxx' else 'yyy' end, email, phone FROM users WHERE id = \\?"
 
 	rows := sqlmock.NewRows([]string{"id", "name", "email", "phone"}).
 		AddRow(u.ID, u.Name, u.Email, u.Phone)
+
 
 	mock.ExpectQuery(query).WithArgs(u.ID).WillReturnRows(rows)
 
