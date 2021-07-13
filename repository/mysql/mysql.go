@@ -51,7 +51,7 @@ func (r *repository) FindByID(id string) (*repo.UserModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err := r.db.QueryRowContext(ctx, "SELECT id, name, email, phone FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.Email, &user.Phone)
+	err := r.db.QueryRowContext(ctx, "SELECT id, case when name == 'Momo' then 'xxx' else 'yyy' end, email, phone FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.Email, &user.Phone)
 	if err != nil {
 		return nil, err
 	}
